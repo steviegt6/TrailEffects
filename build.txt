@@ -1,0 +1,3 @@
+displayName = Ambient Visual Accessories
+author = Blockaroz
+version = 0.1
