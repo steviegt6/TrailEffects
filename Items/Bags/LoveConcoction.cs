@@ -2,7 +2,7 @@
 using Terraria;
 using Terraria.ID;
 
-namespace TrailEffects.Items
+namespace TrailEffects.Items.Bags
 {
     public class LoveConcoction : DustItem
     {

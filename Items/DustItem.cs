@@ -1,56 +1,49 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
-using Terraria.GameContent;
-using Terraria.GameContent.Creative;
 using Terraria.ModLoader;
 
 namespace TrailEffects.Items
 {
-    public abstract class DustItem : ModItem
+    /// <summary>
+    /// Base <see cref="ModItem"/> used for <c>Bags</c>, extends <see cref="TEItem"/>.
+    /// </summary>
+    public abstract class DustItem : TEItem
     {
-        public void DefaultToBag(int Rarity, int JourneySacrifices = 1)
+        public sealed override void UpdateVanity(Player player)
         {
-            Item.accessory = true;
-            Item.vanity = true;
-            Item.canBePlacedInVanityRegardlessOfConditions = true;
-            Item.rare = Rarity;
-            Item.SetShopValues((Terraria.Enums.ItemRarityColor)Rarity, Item.buyPrice(0, 0, 75));
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = JourneySacrifices;
+            if (player.velocity != Vector2.Zero)
+                UpdateMovement(player);
+
+            SafeUpdateVanity(player);
         }
 
-        public override void SetDefaults()
+        public sealed override void UpdateAccessory(Player player, bool hideVisual)
         {
-            Autosize();
+            if (player.velocity != Vector2.Zero)
+                UpdateMovement(player);
+
+            SafeUpdateAccessory(player, hideVisual);
         }
 
-        private void Autosize()
-        {
-            try
-            {
-                Item.Size = TextureAssets.Item[Type].Size();
-            }
-            catch (System.NullReferenceException)
-            {
-                Item.Size = Vector2.Zero;
-            }
-        }
-
+        /// <summary>
+        /// Method automatically called in <see cref="UpdateVanity(Player)"/> and <see cref="UpdateAccessory(Player, bool)"/>.
+        /// </summary>
         public virtual void UpdateMovement(Player player)
         {
         }
 
-        public override void UpdateVanity(Player player)
+        /// <summary>
+        /// Called at the end of <see cref="UpdateVanity(Player)"/>.
+        /// </summary>
+        public virtual void SafeUpdateVanity(Player player)
         {
-            if (player.velocity != Vector2.Zero)
-                UpdateMovement(player);
         }
 
-        public override void UpdateAccessory(Player player, bool hideVisual)
+        /// <summary>
+        /// Called at the end of <see cref="UpdateAccessory(Player, bool)"/>
+        /// </summary>
+        public virtual void SafeUpdateAccessory(Player player, bool hidVisual)
         {
-            if (player.velocity != Vector2.Zero)
-                UpdateMovement(player);
         }
     }
 }

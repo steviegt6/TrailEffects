@@ -3,14 +3,14 @@ using Terraria;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
 
-namespace TrailEffects.Items
+namespace TrailEffects.Items.Bags
 {
-    public class LightningBag : DustItem
+    public class FlameBag : DustItem
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Lightning Pouch");
-            Tooltip.SetDefault("Creates a trail of lightning behind you");
+            DisplayName.SetDefault("Fire Pouch");
+            Tooltip.SetDefault("Creates a trail of flames behind you");
         }
 
         public override void SetDefaults()
@@ -22,7 +22,7 @@ namespace TrailEffects.Items
         {
             for (int d = 0; d < 2; d++)
             {
-                Dust dust = Main.dust[Dust.NewDust(player.position, player.width, player.height - 4, 264, 0, 0, 100, new Color(0, 167, 255), 1.25f)];
+                Dust dust = Main.dust[Dust.NewDust(player.position, player.width, player.height - 4, 127, 0, 0, 128, Color.White, 1.25f)];
                 dust.noGravity = true;
                 dust.velocity *= 0.5f;
                 dust.velocity.Y -= 0.5f;
@@ -34,8 +34,11 @@ namespace TrailEffects.Items
         public override void AddRecipes()
         {
             CreateRecipe()
-                .AddTile(TileID.Loom);
-                //.Register();
+                .AddIngredient(ItemID.Silk, 5)
+                .AddIngredient(ItemID.Cobweb, 20)
+                .AddIngredient(ItemID.Torch, 50)
+                .AddTile(TileID.Loom)
+                .Register();
         }
     }
 }

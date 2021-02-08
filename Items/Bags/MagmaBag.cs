@@ -3,7 +3,7 @@ using Terraria;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
 
-namespace TrailEffects.Items
+namespace TrailEffects.Items.Bags
 {
     public class MagmaBag : DustItem
     {
