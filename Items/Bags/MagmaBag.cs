@@ -28,7 +28,7 @@ namespace TrailEffects.Items.Bags
 
             for (int i = 0; i < 3; i++)
             {
-                dust = Dust.NewDustDirect(player.position, player.width, player.height - 4, 108 /* Ash Dust */, 0, -0.7f, 0, Color.White, 0.75f);
+                dust = Dust.NewDustDirect(player.position, player.width, player.height - 4, 109 /* Ash Dust */, 0, -0.7f, 0, Color.White, 0.75f);
                 dust.velocity *= 0.75f;
                 dust.velocity.Y -= 0.5f;
                 dust.fadeIn = 1.2f;
