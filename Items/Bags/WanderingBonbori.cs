@@ -1,18 +1,15 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using ReLogic.Content;
 using System;
 using Terraria;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
-using Terraria.ModLoader;
 using TrailEffects.Utilities;
 
 namespace TrailEffects.Items.Bags
 {
     public class WanderingBonbori : DustItem
     {
-        public override string Glowmask => "TrailEffects/Assets/WanderingBonbori_Glow";
+        public override string GlowmaskTexture => "TrailEffects/Assets/WanderingBonbori_Glow";
 
         public override void SetStaticDefaults()
         {

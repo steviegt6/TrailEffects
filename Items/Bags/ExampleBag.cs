@@ -2,6 +2,7 @@
 using Terraria;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
+using TrailEffects.Utilities;
 
 namespace TrailEffects.Items.Bags
 {
@@ -13,16 +14,13 @@ namespace TrailEffects.Items.Bags
             Tooltip.SetDefault("Creates a trail behind you");
         }
 
-        public override void SetDefaults()
-        {
-            DefaultToBag(ItemRarityID.Green);
-        }
+        public override void SafeSetDefaults() => Item.DefaultToBag(ItemRarityID.Green);
 
         public override void UpdateMovement(Player player)
         {
-            for (int d = 0; d < 2; d++)
+            for (int i = 0; i < 2; i++)
             {
-                Dust dust = Main.dust[Dust.NewDust(player.position, player.width, player.height - 4, 267, 0, 0, 100, Color.SlateGray, 1f)];
+                Dust dust = Dust.NewDustDirect(player.position, player.width, player.height - 4, 267, 0, 0, 100, Color.SlateGray, 1f);
                 dust.noGravity = true;
                 dust.velocity *= 0.5f;
                 dust.velocity.Y -= 0.5f;
@@ -33,12 +31,12 @@ namespace TrailEffects.Items.Bags
 
         public override void AddRecipes()
         {
-            CreateRecipe()
+            /*CreateRecipe()
                 .AddIngredient(ItemID.Silk, 3)
                 .AddIngredient(ItemID.Cobweb, 15)
                 .AddIngredient(ItemID.Gel, 10)
                 .AddTile(TileID.Loom);
-            //.Register();
+                .Register();*/
         }
     }
 }

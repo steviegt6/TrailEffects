@@ -2,6 +2,7 @@
 using Terraria;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
+using TrailEffects.Utilities;
 
 namespace TrailEffects.Items.Bags
 {
@@ -14,29 +15,24 @@ namespace TrailEffects.Items.Bags
                 "\n'Classic Pursuit'");
         }
 
-        public override void SetDefaults()
-        {
-            DefaultToBag(ItemRarityID.Orange);
-        }
+        public override void SafeSetDefaults() => Item.DefaultToBag(ItemRarityID.Orange);
 
         public override void UpdateMovement(Player player)
         {
-            //inferno
-            Dust dust1 = Main.dust[Dust.NewDust(player.position, player.width, player.height - 4, 174, 0, 0, 100, Color.White, 1f)];
-            dust1.noGravity = true;
-            dust1.velocity *= 0.75f;
-            dust1.velocity.Y -= 0.5f;
-            dust1.fadeIn = 1.2f;
-            dust1.shader = GameShaders.Armor.GetSecondaryShader(player.cMinion, player);
+            Dust dust = Dust.NewDustDirect(player.position, player.width, player.height - 4, 174 /* Inferno Dust */, 0, 0, 100, Color.White, 1f);
+            dust.noGravity = true;
+            dust.velocity *= 0.75f;
+            dust.velocity.Y -= 0.5f;
+            dust.fadeIn = 1.2f;
+            dust.shader = GameShaders.Armor.GetSecondaryShader(player.cMinion, player);
 
-            for (int d = 0; d < 3; d++)
+            for (int i = 0; i < 3; i++)
             {
-                //ash
-                Dust dust2 = Main.dust[Dust.NewDust(player.position, player.width, player.height - 4, 109, 0, -0.7f, 0, Color.White, 0.75f)];
-                dust2.velocity *= 0.75f;
-                dust2.velocity.Y -= 0.5f;
-                dust2.fadeIn = 1.2f;
-                dust2.shader = GameShaders.Armor.GetSecondaryShader(player.cMinion, player);
+                dust = Dust.NewDustDirect(player.position, player.width, player.height - 4, 108 /* Ash Dust */, 0, -0.7f, 0, Color.White, 0.75f);
+                dust.velocity *= 0.75f;
+                dust.velocity.Y -= 0.5f;
+                dust.fadeIn = 1.2f;
+                dust.shader = GameShaders.Armor.GetSecondaryShader(player.cMinion, player);
             }
         }
 

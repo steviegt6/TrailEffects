@@ -13,7 +13,7 @@ namespace TrailEffects.Items
     /// </summary>
     public abstract class TEItem : ModItem
     {
-        public virtual string Glowmask => "";
+        public virtual string GlowmaskTexture => "";
 
         /// <summary>
         /// Whether this item's size should be set automatically or not.
@@ -37,25 +37,30 @@ namespace TrailEffects.Items
 
         public sealed override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
-            if (!string.IsNullOrEmpty(Glowmask))
+            if (!string.IsNullOrEmpty(GlowmaskTexture))
             {
-                Asset<Texture2D> texture = ModContent.GetTexture(Glowmask);
+                Asset<Texture2D> texture = ModContent.GetTexture(GlowmaskTexture);
                 Vector2 itemSizeOffset = new Vector2(Item.width / 2, Item.height - texture.Height() * 0.5f);
                 Vector2 position = Item.position - Main.screenPosition + itemSizeOffset;
 
                 spriteBatch.Draw(texture.Value, position, null, Color.White, rotation, texture.Size() * 0.5f, scale, SpriteEffects.None, 0f);
             }
+
+            SafePostDrawInWorld(spriteBatch, lightColor, alphaColor, rotation, scale, whoAmI);
         }
 
+        /// <summary>
+        /// Called at the end of <see cref="PostDrawInWorld(SpriteBatch, Color, Color, float, float, int)"/>.
+        /// </summary>
         public virtual void SafePostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
         }
 
         public sealed override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)
         {
-            if (!string.IsNullOrEmpty(Glowmask))
+            if (!string.IsNullOrEmpty(GlowmaskTexture))
             {
-                Asset<Texture2D> texture = ModContent.GetTexture(Glowmask);
+                Asset<Texture2D> texture = ModContent.GetTexture(GlowmaskTexture);
                 Vector2 position = Item.position - Main.screenPosition + new Vector2(Item.width / 2, Item.height - texture.Height() * 0.5f);
 
                 for (int i = 0; i < 4; i++)
@@ -68,12 +73,17 @@ namespace TrailEffects.Items
                 }
             }
 
-            return true;
+            return SafePreDrawInWorld(spriteBatch, lightColor, alphaColor, ref rotation, ref scale, whoAmI);
         }
+
+        /// <summary>
+        /// The return value of <see cref="PreDrawInWorld(SpriteBatch, Color, Color, ref float, ref float, int)"/>.
+        /// </summary>
+        public virtual bool SafePreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI) => true;
 
         public override bool PreDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
         {
-            if (!string.IsNullOrEmpty(Glowmask))
+            if (!string.IsNullOrEmpty(GlowmaskTexture))
             {
                 Asset<Texture2D> texture = ModContent.GetTexture("TrailEffects/Assets/WanderingBonbori_Glow");
 
@@ -87,7 +97,12 @@ namespace TrailEffects.Items
                 }
             }
 
-            return true;
+            return SafePreDrawInInventory(spriteBatch, position, frame, drawColor, itemColor, origin, scale);
         }
+
+        /// <summary>
+        /// The return value of <see cref="PreDrawInInventory(SpriteBatch, Vector2, Rectangle, Color, Color, Vector2, float)"/>.
+        /// </summary>
+        public virtual bool SafePreDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale) => true;
     }
 }
