@@ -22,7 +22,7 @@ namespace TrailEffects.Items
         {
             for (int d = 0; d < 4; d++)
             {
-                Dust dust = Main.dust[Dust.NewDust(player.position, player.width, player.height - 4, 187, 0, 0, 128, Color.White, 1.25f)];
+                Dust dust = Main.dust[Dust.NewDust(player.position, player.width, player.height - 4, 187, 0, 0, 128, Color.White, 1f)];
                 dust.noGravity = true;
                 dust.velocity *= 0.5f;
                 dust.velocity.Y -= 0.5f;
