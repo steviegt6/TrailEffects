@@ -1,15 +1,16 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using ReLogic.Content;
 using Terraria;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
+using Terraria.ModLoader;
 using TrailEffects.Utilities;
 
 namespace TrailEffects.Items.Bags
 {
     public class CursedBag : DustItem
     {
-        public override string GlowmaskTexture => "TrailEffects/Assets/CursedBag_Glow";
-
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Cursed Flame Pouch");
@@ -29,6 +30,14 @@ namespace TrailEffects.Items.Bags
                 dust.fadeIn = 1.2f;
                 dust.shader = GameShaders.Armor.GetSecondaryShader(player.cMinion, player);
             }
+        }
+
+        public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
+        {
+            Asset<Texture2D> texture = ModContent.GetTexture("TrailEffects/Assets/CursedBag_Glow");
+            Vector2 position = Item.position - Main.screenPosition + new Vector2(Item.width / 2, Item.height - texture.Height() * 0.5f);
+
+            spriteBatch.Draw(texture.Value, position, null, Color.White, rotation, texture.Size() * 0.5f, scale, SpriteEffects.None, 0f);
         }
 
         public override void AddRecipes()

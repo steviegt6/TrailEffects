@@ -1,16 +1,17 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using ReLogic.Content;
 using System;
 using Terraria;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
+using Terraria.ModLoader;
 using TrailEffects.Utilities;
 
 namespace TrailEffects.Items.Bags
 {
     public class WanderingBonbori : DustItem
     {
-        public override string GlowmaskTexture => "TrailEffects/Assets/WanderingBonbori_Glow";
-
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Wandering Bonbori");
@@ -20,6 +21,8 @@ namespace TrailEffects.Items.Bags
         }
 
         public override void SafeSetDefaults() => Item.DefaultToBag(ItemRarityID.Green);
+
+        public override void SafeUpdateAccessory(Player player, bool hideVanity) => DustMethod(player, 5, 3);
 
         public override void SafeUpdateVanity(Player player) => DustMethod(player, 5, 3);
 
@@ -48,6 +51,42 @@ namespace TrailEffects.Items.Bags
             }
 
             Lighting.AddLight(player.Center, Color.DarkOrange.ToVector3() * 0.4f);
+        }
+
+        public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
+        {
+            Asset<Texture2D> texture = ModContent.GetTexture("TrailEffects/Assets/WanderingBonbori_Glow");
+            Vector2 position = Item.position - Main.screenPosition + new Vector2(Item.width / 2, Item.height - texture.Height() * 0.5f);
+
+            spriteBatch.Draw(texture.Value, position, null, Color.White, rotation, texture.Size() * 0.5f, scale, SpriteEffects.None, 0f);
+        }
+
+        public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)
+        {
+            Asset<Texture2D> texture = ModContent.GetTexture("TrailEffects/Assets/WanderingBonbori_Glow");
+            Vector2 position = Item.position - Main.screenPosition + new Vector2(Item.width / 2, Item.height - texture.Height() * 0.5f);
+
+            for (int i = 0; i < 4; i++)
+            {
+                float sine = (float)Math.Sin(Main.GlobalTimeWrappedHourly * 3f) + 1f;
+                Vector2 offsetPositon = new Vector2(0, sine).RotatedBy(MathHelper.PiOver2 * i) * 2;
+                spriteBatch.Draw(texture.Value, position + offsetPositon, null, Color.White * 0.25882352941f, rotation, texture.Size() * 0.5f, scale, SpriteEffects.None, 0f);
+            }
+            return true;
+        }
+
+        public override bool PreDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
+        {
+            Asset<Texture2D> texture = ModContent.GetTexture("TrailEffects/Assets/WanderingBonbori_Glow");
+
+            for (int i = 0; i < 4; i++)
+            {
+                float sine = (float)Math.Sin(Main.GlobalTimeWrappedHourly * 3f);
+                Vector2 offsetPositon = new Vector2(0, (sine + 1f) / 1.5f).RotatedBy(MathHelper.PiOver2 * i) * 2;
+                spriteBatch.Draw(texture.Value, position + offsetPositon, null, Color.White * 0.25882352941f, 0, origin, scale, SpriteEffects.None, 0f);
+            }
+
+            return true;
         }
 
         public override void AddRecipes()
