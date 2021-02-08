@@ -28,9 +28,9 @@ namespace TrailEffects.Items.Bags
 
         public override void HoldStyle(Player player) => DustMethod(player, 15, 4);
 
-        public override void PostUpdate() => Lighting.AddLight(Item.Center, Color.DarkOrange.ToVector3() * 0.6f);
+        public override void PostUpdate() => SineLightingMethod(Item.Center, 3f, 0.6f);
 
-        private void DustMethod(Player player, int frequency1, int frequency2, float xV = 0, float yV = 0)
+        public void DustMethod(Player player, int frequency1, int frequency2, float xV = 0, float yV = 0)
         {
             if (player.miscCounter % frequency1 == 0 && Main.rand.NextBool(frequency2))
             {
@@ -50,7 +50,14 @@ namespace TrailEffects.Items.Bags
                 dust.shader = GameShaders.Armor.GetSecondaryShader(player.cMinion, player);
             }
 
-            Lighting.AddLight(player.Center, Color.DarkOrange.ToVector3() * 0.4f);
+            SineLightingMethod(player.Center, 3f, 0.7f);
+        }
+
+        private void SineLightingMethod(Vector2 position, float speed, float opacity)
+        {
+            float sine = ((float)Math.Sin(Main.GlobalTimeWrappedHourly * speed) + 1f) / 2.2f;
+            //Main.NewText(sine);
+            Lighting.AddLight(position, Color.DarkOrange.ToVector3() * opacity * (sine + 0.9f));
         }
 
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
