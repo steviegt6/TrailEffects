@@ -24,7 +24,7 @@ namespace TrailEffects.Items.Bags
         {
             for (int d = 0; d < 2; d++)
             {
-                Dust dust = Main.dust[Dust.NewDust(player.position, player.width, player.height - 4, 170, 0, 0, 128, Color.White, 0.75f)];
+                Dust dust = Main.dust[Dust.NewDust(player.position, player.width, player.height - 4, 170, 0, 0, 128, Color.White, 0.7f)];
                 dust.noGravity = true;
                 dust.velocity *= 0.5f;
                 dust.velocity.Y -= 0.5f;

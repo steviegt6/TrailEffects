@@ -24,10 +24,10 @@ namespace TrailEffects.Items.Bags
         {
             for (int d = 0; d < 2; d++)
             {
-                Dust dust = Main.dust[Dust.NewDust(player.position, player.width, player.height - 4, DustID.CursedTorch, 0, 0, 128, Color.White, 1.25f)];
+                Dust dust = Main.dust[Dust.NewDust(player.position, player.width, player.height - 4, DustID.CursedTorch, 0, 0, 128, Color.White, 1f)];
                 dust.noGravity = true;
                 dust.velocity *= 0.5f;
-                dust.velocity.Y--;
+                dust.velocity.Y -= 0.5f;
                 dust.fadeIn = 1.2f;
                 dust.shader = GameShaders.Armor.GetSecondaryShader(player.cMinion, player);
             }

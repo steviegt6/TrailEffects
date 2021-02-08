@@ -32,8 +32,7 @@ namespace TrailEffects.Items.Bags
             for (int d = 0; d < 3; d++)
             {
                 //ash
-                Dust dust2 = Main.dust[Dust.NewDust(player.position, player.width, player.height - 4, 109, 0, 0, 0, Color.White, 1.25f)];
-                dust2.noGravity = true;
+                Dust dust2 = Main.dust[Dust.NewDust(player.position, player.width, player.height - 4, 109, 0, -0.7f, 0, Color.White, 0.75f)];
                 dust2.velocity *= 0.75f;
                 dust2.velocity.Y -= 0.5f;
                 dust2.fadeIn = 1.2f;
