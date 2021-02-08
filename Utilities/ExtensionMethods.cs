@@ -31,19 +31,6 @@ namespace TrailEffects.Utilities
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[item.type] = sacrificesRequired;
         }
 
-        public static void Autosize(this Item item)
-        {
-            try
-            {
-                item.Size = TextureAssets.Item[item.type].Size();
-            }
-            catch (Exception e)
-            {
-                item.Size = Vector2.Zero;
-
-                if (!(e is NullReferenceException))
-                    throw e;
-            }
-        }
+        public static void Autosize(this Item item) => item.Size = TextureAssets.Item[item.type]?.Size() ?? Vector2.Zero;
     }
 }
