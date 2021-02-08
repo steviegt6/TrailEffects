@@ -1,30 +1,29 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using ReLogic.Content;
 using Terraria;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
+using TrailEffects.Utilities;
 
-namespace TrailEffects.Items
+namespace TrailEffects.Items.Bags
 {
-    public class IchorBag : DustItem
+    public class CursedBag : DustItem
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Ichor Pouch");
-            Tooltip.SetDefault("Creates a trail of ichor behind you");
+            DisplayName.SetDefault("Cursed Flame Pouch");
+            Tooltip.SetDefault("Creates a trail of cursed flames behind you");
         }
 
-        public override void SetDefaults()
-        {
-            DefaultToBag(ItemRarityID.LightRed);
-        }
+        public override void SafeSetDefaults() => Item.DefaultToBag(ItemRarityID.LightRed);
 
         public override void UpdateMovement(Player player)
         {
-            for (int d = 0; d < 2; d++)
+            for (int i = 0; i < 2; i++)
             {
-                Dust dust = Main.dust[Dust.NewDust(player.position, player.width, player.height - 4, 170, 0, 0, 128, Color.White, 0.7f)];
+                Dust dust = Main.dust[Dust.NewDust(player.position, player.width, player.height - 4, DustID.CursedTorch, 0, 0, 128, Color.White, 1f)];
                 dust.noGravity = true;
                 dust.velocity *= 0.5f;
                 dust.velocity.Y -= 0.5f;
@@ -35,10 +34,10 @@ namespace TrailEffects.Items
 
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
-            Texture2D texture = (Texture2D)ModContent.GetTexture("TrailEffects/Assets/IchorBag_Glow");
-            Vector2 position = Item.position - Main.screenPosition + new Vector2(Item.width / 2, Item.height - texture.Height * 0.5f);
+            Asset<Texture2D> texture = ModContent.GetTexture("TrailEffects/Assets/CursedBag_Glow");
+            Vector2 position = Item.position - Main.screenPosition + new Vector2(Item.width / 2, Item.height - texture.Height() * 0.5f);
 
-            spriteBatch.Draw(texture, position, null, Color.White, rotation, texture.Size() * 0.5f, scale, SpriteEffects.None, 0f);
+            spriteBatch.Draw(texture.Value, position, null, Color.White, rotation, texture.Size() * 0.5f, scale, SpriteEffects.None, 0f);
         }
 
         public override void AddRecipes()
@@ -46,7 +45,7 @@ namespace TrailEffects.Items
             CreateRecipe()
                 .AddIngredient(ItemID.Silk, 5)
                 .AddIngredient(ItemID.Cobweb, 20)
-                .AddIngredient(ItemID.Ichor, 25)
+                .AddIngredient(ItemID.CursedFlame, 25)
                 .AddIngredient(ItemID.SoulofNight, 10)
                 .AddTile(TileID.Loom)
                 .Register();

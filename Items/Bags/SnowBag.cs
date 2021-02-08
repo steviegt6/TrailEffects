@@ -2,8 +2,9 @@
 using Terraria;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
+using TrailEffects.Utilities;
 
-namespace TrailEffects.Items
+namespace TrailEffects.Items.Bags
 {
     public class SnowBag : DustItem
     {
@@ -13,14 +14,11 @@ namespace TrailEffects.Items
             Tooltip.SetDefault("Creates a storm of snow around you");
         }
 
-        public override void SetDefaults()
-        {
-            DefaultToBag(ItemRarityID.Orange);
-        }
+        public override void SafeSetDefaults() => Item.DefaultToBag(ItemRarityID.Orange);
 
-        public override void UpdateVanity(Player player)
+        public override void SafeUpdateVanity(Player player)
         {
-            Dust dust = Main.dust[Dust.NewDust(player.position - new Vector2(player.width / 2, 20), player.width * 2, player.height, 76, 0, 2.2f, 0, Color.White, 0.85f)];
+            Dust dust = Dust.NewDustDirect(player.position - new Vector2(player.width / 2, 20), player.width * 2, player.height, 76, 0, 2.2f, 0, Color.White, 0.85f);
             dust.velocity.Y += 0.1f;
             dust.scale *= 0.985f;
             dust.shader = GameShaders.Armor.GetSecondaryShader(player.cMinion, player);
