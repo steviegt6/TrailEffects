@@ -5,7 +5,7 @@ namespace TrailEffects
     public class TrailEffects : Mod
     {
         /// <summary>
-        /// <see cref="TrailEffects"/>' instance, the same instance utilizied by tModLoader.
+        /// <see cref="TrailEffects"/>' instance, the same instance utilized by tModLoader.
         /// </summary>
         public TrailEffects Instance { get; }
 

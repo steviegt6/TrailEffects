@@ -27,7 +27,7 @@ namespace TrailEffects.Utilities
             item.vanity = true;
             item.canBePlacedInVanityRegardlessOfConditions = true;
             item.rare = (int)itemRarity;
-            item.SetShopValues(itemRarity, Item.buyPrice(0, 0, 75));
+            item.SetShopValues(itemRarity, Item.buyPrice(silver: 75));
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[item.type] = sacrificesRequired;
         }
 
